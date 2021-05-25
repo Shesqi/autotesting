@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import javax.swing.*;
+import java.util.List;
 
 public class Main extends PageBase {
     String SITE_URL = "https://udemy.com";
@@ -44,19 +45,38 @@ public class Main extends PageBase {
 //        js.executeScript("window.scrollBy(0,2500)");
     }
 
-    public Main checkSearch() {
+    public void checkSearch() {
         WebElement searchInput = driver.findElement(By.xpath("//input[@placeholder='Search for anything']"));
         WebElement searchButton = driver.findElement(By.xpath("//button[@type='submit']"));
+        String searchResult = "//a[contains(@class, 'udlite-search-form-autocomplete-suggestion')]";
 
         searchInput.click();
         searchInput.sendKeys("Java");
 
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+//        wait.until(ExpectedConditions.visibilityOf(driver.findElements(By.xpath(searchResult))));
+
+        List<WebElement> list = driver.findElements(By.xpath(searchResult));
+        System.out.println(list.size());
+
+        for (int i = 0; i < list.size(); i++) {
+            String listItem = list.get(i).getText();
+
+            if (listItem.contains("java")) {
+                list.get(i).click();
+            }
+        }
 
 
-        wait.until(ExpectedConditions.visibilityOf(searchButton));
+
+//        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//ul[contains(@class, 'udlite-search-form-autocomplete-suggestions')]"))));
 
 
 //        searchButton = driver.findElement(By.xpath("//button[@type='submit']"));
-        return this;
     }
 }

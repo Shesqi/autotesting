@@ -21,14 +21,6 @@ public class TestBase {
 
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-
-
-        try {
-            sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         main = PageFactory.initElements(driver, Main.class);
     }
 
